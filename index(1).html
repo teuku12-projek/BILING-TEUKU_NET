@@ -2,94 +2,1428 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Billing RT/RW Net</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
-.sidebar{position:fixed;left:0;top:0;bottom:0;width:235px;background:#111827;color:white;padding:22px 14px}.logo{font-size:24px;font-weight:bold;margin:8px 12px 30px}.logo span{color:#38bdf8}
-.nav button{display:block;width:100%;text-align:left;background:transparent;border:0;color:#cbd5e1;padding:13px;border-radius:9px;margin:4px 0;cursor:pointer;font-size:15px}.nav button:hover,.nav button.active{background:#1e293b;color:white}
-.main{margin-left:235px}.top{height:68px;background:white;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;padding:0 28px}.content{padding:25px}.page{display:none}.page.active{display:block}
-.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:18px 0}.card,.panel{background:white;border-radius:13px;padding:20px;box-shadow:0 3px 15px #0000000b}.card small{color:#64748b}.card b{display:block;font-size:25px;margin-top:8px}
-.title{display:flex;justify-content:space-between;align-items:center}.btn{border:0;background:#0ea5e9;color:white;padding:10px 15px;border-radius:8px;cursor:pointer}.btn.red{background:#ef4444}.btn.green{background:#16a34a}
-table{width:100%;border-collapse:collapse;margin-top:10px}th,td{padding:12px 9px;border-bottom:1px solid #edf0f4;text-align:left}th{color:#64748b;font-size:13px}
-input,select{padding:11px;border:1px solid #d5dce5;border-radius:8px;width:100%;margin:5px 0}.form{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.modal{display:none;position:fixed;inset:0;background:#0008;align-items:center;justify-content:center;padding:15px}.modal.show{display:flex}.modalbox{background:white;width:min(600px,100%);padding:24px;border-radius:14px}.actions{display:flex;gap:8px;margin-top:12px}.badge{padding:5px 8px;border-radius:15px;font-size:12px}.ok{background:#dcfce7;color:#166534}.warn{background:#fef3c7;color:#92400e}.empty{text-align:center;color:#64748b;padding:30px}
-@media(max-width:750px){.sidebar{width:65px;padding:15px 7px}.logo{font-size:0}.logo:after{content:"RN";font-size:20px}.nav button{font-size:0;text-align:center}.nav button:first-letter{font-size:19px}.main{margin-left:65px}.content{padding:15px}.cards{grid-template-columns:1fr 1fr}.form{grid-template-columns:1fr}.top{padding:0 15px}table{font-size:12px}}
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial, sans-serif;
+    background:#f1f5f9;
+    color:#172033;
+}
+
+/* SIDEBAR */
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    width:240px;
+    background:#111827;
+    color:white;
+    padding:20px 15px;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:bold;
+    padding:10px;
+    margin-bottom:25px;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+.menu button{
+    width:100%;
+    border:0;
+    background:none;
+    color:#cbd5e1;
+    text-align:left;
+    padding:13px;
+    margin:3px 0;
+    border-radius:8px;
+    cursor:pointer;
+    font-size:15px;
+}
+
+.menu button:hover,
+.menu button.active{
+    background:#1e293b;
+    color:white;
+}
+
+/* MAIN */
+.main{
+    margin-left:240px;
+}
+
+.topbar{
+    height:70px;
+    background:white;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 30px;
+}
+
+.content{
+    padding:25px;
+}
+
+.page{
+    display:none;
+}
+
+.page.active{
+    display:block;
+}
+
+/* CARD */
+.cards{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+    margin:20px 0;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:13px;
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
+}
+
+.card small{
+    color:#64748b;
+}
+
+.card h2{
+    margin:10px 0 0;
+}
+
+/* PANEL */
+.panel{
+    background:white;
+    padding:20px;
+    border-radius:13px;
+    margin-top:20px;
+    box-shadow:0 3px 15px rgba(0,0,0,.06);
+}
+
+.title{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+}
+
+/* BUTTON */
+.btn{
+    border:0;
+    padding:10px 15px;
+    border-radius:8px;
+    background:#0ea5e9;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.btn:hover{
+    opacity:.9;
+}
+
+.red{
+    background:#ef4444;
+}
+
+.green{
+    background:#16a34a;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th,td{
+    padding:13px 10px;
+    border-bottom:1px solid #e5e7eb;
+    text-align:left;
+}
+
+th{
+    color:#64748b;
+    font-size:13px;
+}
+
+/* FORM */
+.form{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:10px;
+}
+
+input,select{
+    width:100%;
+    padding:11px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+}
+
+/* MODAL */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    background:white;
+    width:min(600px,100%);
+    padding:25px;
+    border-radius:15px;
+}
+
+.actions{
+    margin-top:15px;
+    display:flex;
+    gap:8px;
+}
+
+/* STATUS */
+.status{
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:12px;
+}
+
+.lunas{
+    background:#dcfce7;
+    color:#166534;
+}
+
+.belum{
+    background:#fef3c7;
+    color:#92400e;
+}
+
+/* MOBILE */
+@media(max-width:800px){
+
+    .sidebar{
+        width:65px;
+        padding:15px 7px;
+    }
+
+    .logo{
+        font-size:0;
+        text-align:center;
+    }
+
+    .logo::after{
+        content:"RN";
+        font-size:20px;
+    }
+
+    .menu button{
+        font-size:0;
+        text-align:center;
+    }
+
+    .main{
+        margin-left:65px;
+    }
+
+    .content{
+        padding:15px;
+    }
+
+    .cards{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .form{
+        grid-template-columns:1fr;
+    }
+
+    table{
+        font-size:12px;
+    }
+
+}
 </style>
 </head>
+
 <body>
-<aside class="sidebar"><div class="logo">RT/RW<span>NET</span></div><div class="nav">
-<button class="active" onclick="show('dashboard',this)">🏠 Dashboard</button>
-<button onclick="show('pelanggan',this)">👥 Pelanggan</button>
-<button onclick="show('paket',this)">📡 Paket</button>
-<button onclick="show('tagihan',this)">💰 Tagihan</button>
-<button onclick="show('laporan',this)">📊 Laporan</button>
-<button onclick="backup()">💾 Backup</button>
-<button onclick="resetData()">♻️ Reset</button>
-</div></aside>
-<main class="main"><header class="top"><b>Billing RT/RW Net</b><span>Admin</span></header><div class="content">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+<div class="logo">
+RT/RW<span>NET</span>
+</div>
+
+<div class="menu">
+
+<button class="active" onclick="showPage('dashboard',this)">
+🏠 Dashboard
+</button>
+
+<button onclick="showPage('pelanggan',this)">
+👥 Pelanggan
+</button>
+
+<button onclick="showPage('paket',this)">
+📡 Paket Internet
+</button>
+
+<button onclick="showPage('tagihan',this)">
+💰 Tagihan
+</button>
+
+<button onclick="showPage('laporan',this)">
+📊 Laporan
+</button>
+
+<button onclick="backupData()">
+💾 Backup Data
+</button>
+
+</div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="topbar">
+
+<b>Billing RT/RW Net</b>
+
+<span>Admin</span>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- DASHBOARD -->
 
 <section id="dashboard" class="page active">
-<h2>Dashboard</h2><div class="cards">
-<div class="card"><small>Total Pelanggan</small><b id="dCust">0</b></div>
-<div class="card"><small>Pelanggan Aktif</small><b id="dActive">0</b></div>
-<div class="card"><small>Belum Bayar</small><b id="dUnpaid">0</b></div>
-<div class="card"><small>Pendapatan Lunas</small><b id="dIncome">Rp 0</b></div></div>
-<div class="panel"><h3>Tagihan Terbaru</h3><div id="dashBills"></div></div>
+
+<h2>Dashboard</h2>
+
+<div class="cards">
+
+<div class="card">
+<small>Total Pelanggan</small>
+<h2 id="totalPelanggan">0</h2>
+</div>
+
+<div class="card">
+<small>Pelanggan Aktif</small>
+<h2 id="pelangganAktif">0</h2>
+</div>
+
+<div class="card">
+<small>Belum Bayar</small>
+<h2 id="belumBayar">0</h2>
+</div>
+
+<div class="card">
+<small>Pendapatan</small>
+<h2 id="pendapatan">Rp 0</h2>
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h3>Tagihan Terbaru</h3>
+
+<div id="dashboardTagihan"></div>
+
+</div>
+
 </section>
+
+
+
+<!-- PELANGGAN -->
 
 <section id="pelanggan" class="page">
-<div class="title"><h2>Data Pelanggan</h2><button class="btn" onclick="openCustomer()">+ Tambah</button></div>
-<div class="panel"><table><thead><tr><th>Kode</th><th>Nama</th><th>HP</th><th>Paket</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="customerRows"></tbody></table></div>
+
+<div class="title">
+
+<h2>Data Pelanggan</h2>
+
+<button class="btn" onclick="openPelanggan()">
++ Tambah Pelanggan
+</button>
+
+</div>
+
+
+<div class="panel">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Kode</th>
+<th>Nama</th>
+<th>No HP</th>
+<th>Paket</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+
+</thead>
+
+<tbody id="tabelPelanggan"></tbody>
+
+</table>
+
+</div>
+
 </section>
+
+
+
+<!-- PAKET -->
 
 <section id="paket" class="page">
-<div class="title"><h2>Paket Internet</h2><button class="btn" onclick="openPackage()">+ Tambah</button></div>
-<div class="cards" id="packageCards"></div>
+
+<div class="title">
+
+<h2>Paket Internet</h2>
+
+<button class="btn" onclick="openPaket()">
++ Tambah Paket
+</button>
+
+</div>
+
+
+<div class="cards" id="daftarPaket"></div>
+
 </section>
+
+
+
+<!-- TAGIHAN -->
 
 <section id="tagihan" class="page">
-<div class="title"><h2>Tagihan & Pembayaran</h2><button class="btn" onclick="openBill()">+ Buat Tagihan</button></div>
-<div class="panel"><table><thead><tr><th>Invoice</th><th>Pelanggan</th><th>Bulan</th><th>Nominal</th><th>Jatuh Tempo</th><th>Status</th><th>Aksi</th></tr></thead><tbody id="billRows"></tbody></table></div>
+
+<div class="title">
+
+<h2>Tagihan & Pembayaran</h2>
+
+<button class="btn" onclick="openTagihan()">
++ Buat Tagihan
+</button>
+
+</div>
+
+
+<div class="panel">
+
+<table>
+
+<thead>
+
+<tr>
+<th>Invoice</th>
+<th>Pelanggan</th>
+<th>Bulan</th>
+<th>Nominal</th>
+<th>Jatuh Tempo</th>
+<th>Status</th>
+<th>Aksi</th>
+</tr>
+
+</thead>
+
+<tbody id="tabelTagihan"></tbody>
+
+</table>
+
+</div>
+
 </section>
+
+
+
+<!-- LAPORAN -->
 
 <section id="laporan" class="page">
-<h2>Laporan</h2><div class="cards"><div class="card"><small>Total Nominal Tagihan</small><b id="rTotal">Rp 0</b></div><div class="card"><small>Total Lunas</small><b id="rPaid">Rp 0</b></div><div class="card"><small>Total Belum Bayar</small><b id="rUnpaid">Rp 0</b></div></div>
-<div class="panel"><h3>Ringkasan</h3><div id="reportText"></div></div>
-</section>
-</div></main>
 
-<div class="modal" id="modal"><div class="modalbox" id="modalbox"></div></div>
+<h2>Laporan</h2>
+
+<div class="cards">
+
+<div class="card">
+<small>Total Tagihan</small>
+<h2 id="lapTotal">Rp 0</h2>
+</div>
+
+<div class="card">
+<small>Total Lunas</small>
+<h2 id="lapLunas">Rp 0</h2>
+</div>
+
+<div class="card">
+<small>Belum Dibayar</small>
+<h2 id="lapBelum">Rp 0</h2>
+</div>
+
+</div>
+
+
+<div class="panel">
+
+<h3>Ringkasan</h3>
+
+<div id="ringkasan"></div>
+
+</div>
+
+</section>
+
+
+</div>
+
+</main>
+
+
+
+<!-- MODAL -->
+
+<div class="modal" id="modal">
+
+<div class="modal-box" id="modalBox"></div>
+
+</div>
+
+
 <script>
-const key="billingRTv1";
-let db=JSON.parse(localStorage.getItem(key)||"null")||{
-customers:[{id:1,code:"RT001",name:"Pelanggan Contoh",phone:"081234567890",address:"Alamat contoh",packageId:2,status:"Aktif"}],
-packages:[{id:1,name:"Hemat",speed:"10 Mbps",price:100000},{id:2,name:"Standar",speed:"20 Mbps",price:150000},{id:3,name:"Premium",speed:"30 Mbps",price:200000}],
-bills:[]
-};
-function save(){localStorage.setItem(key,JSON.stringify(db));render()}
-function rupiah(n){return "Rp "+Number(n).toLocaleString("id-ID")}
-function show(id,btn){document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".nav button").forEach(x=>x.classList.remove("active"));btn.classList.add("active");render()}
-function modal(html){document.getElementById("modalbox").innerHTML=html;document.getElementById("modal").classList.add("show")}
-function closeModal(){document.getElementById("modal").classList.remove("show")}
-function openCustomer(){modal(`<h2>Tambah Pelanggan</h2><div class="form"><input id="cCode" placeholder="Kode pelanggan"><input id="cName" placeholder="Nama pelanggan"><input id="cPhone" placeholder="No. HP"><input id="cAddress" placeholder="Alamat"><select id="cPackage">${db.packages.map(p=>`<option value="${p.id}">${p.name} - ${p.speed}</option>`).join("")}</select><select id="cStatus"><option>Aktif</option><option>Nonaktif</option></select></div><div class="actions"><button class="btn" onclick="addCustomer()">Simpan</button><button class="btn red" onclick="closeModal()">Batal</button></div>`)}
-function addCustomer(){let c={id:Date.now(),code:cCode.value||"C"+Date.now(),name:cName.value,phone:cPhone.value,address:cAddress.value,packageId:+cPackage.value,status:cStatus.value};if(!c.name)return alert("Nama wajib diisi");db.customers.push(c);closeModal();save()}
-function delCustomer(id){if(confirm("Hapus pelanggan ini?")){db.customers=db.customers.filter(c=>c.id!==id);db.bills=db.bills.filter(b=>b.customerId!==id);save()}}
-function openPackage(){modal(`<h2>Tambah Paket</h2><input id="pName" placeholder="Nama paket"><input id="pSpeed" placeholder="Kecepatan, contoh 20 Mbps"><input id="pPrice" type="number" placeholder="Harga per bulan"><div class="actions"><button class="btn" onclick="addPackage()">Simpan</button><button class="btn red" onclick="closeModal()">Batal</button></div>`)}
-function addPackage(){if(!pName.value||!pPrice.value)return alert("Nama dan harga wajib diisi");db.packages.push({id:Date.now(),name:pName.value,speed:pSpeed.value,price:+pPrice.value});closeModal();save()}
-function delPackage(id){if(confirm("Hapus paket?")){db.packages=db.packages.filter(p=>p.id!==id);save()}}
-function openBill(){if(!db.customers.length)return alert("Tambahkan pelanggan dulu.");modal(`<h2>Buat Tagihan</h2><select id="bCustomer">${db.customers.filter(c=>c.status==="Aktif").map(c=>`<option value="${c.id}">${c.name}</option>`).join("")}</select><input id="bMonth" type="month" value="${new Date().toISOString().slice(0,7)}"><input id="bDue" type="date"><div class="actions"><button class="btn" onclick="addBill()">Buat Tagihan</button><button class="btn red" onclick="closeModal()">Batal</button></div>`);bDue.value=new Date(Date.now()+7*86400000).toISOString().slice(0,10)}
-function addBill(){let c=db.customers.find(x=>x.id==bCustomer.value),p=db.packages.find(x=>x.id==c.packageId);if(!p)return alert("Paket pelanggan tidak tersedia");db.bills.push({id:Date.now(),invoice:"INV-"+Date.now().toString().slice(-8),customerId:c.id,month:bMonth.value,amount:p.price,due:bDue.value,status:"Belum Bayar"});closeModal();save()}
-function pay(id){let b=db.bills.find(x=>x.id===id);b.status="Lunas";b.paidAt=new Date().toISOString();save()}
-function delBill(id){if(confirm("Hapus tagihan?")){db.bills=db.bills.filter(b=>b.id!==id);save()}}
-function backup(){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));a.download="backup-billing.json";a.click()}
-function resetData(){if(confirm("Hapus semua data dan kembali ke data awal?")){localStorage.removeItem(key);location.reload()}}
-function render(){
-dCust.textContent=db.customers.length;dActive.textContent=db.customers.filter(c=>c.status==="Aktif").length;dUnpaid.textContent=db.bills.filter(b=>b.status!=="Lunas").length;dIncome.textContent=rupiah(db.bills.filter(b=>b.status==="Lunas").reduce((a,b)=>a+b.amount,0));
-customerRows.innerHTML=db.customers.map(c=>{let p=db.packages.find(x=>x.id===c.packageId);return `<tr><td>${c.code}</td><td>${c.name}</td><td>${c.phone||"-"}</td><td>${p?p.name:"-"}</td><td>${c.status}</td><td><button class="btn red" onclick="delCustomer(${c.id})">Hapus</button></td></tr>`}).join("")||`<tr><td colspan="6" class="empty">Belum ada pelanggan</td></tr>`;
-packageCards.innerHTML=db.packages.map(p=>`<div class="card"><small>${p.name}</small><b>${p.speed}</b><span>${rupiah(p.price)} / bulan</span><br><button class="btn red" onclick="delPackage(${p.id})">Hapus</button></div>`).join("");
-billRows.innerHTML=db.bills.slice().reverse().map(b=>{let c=db.customers.find(x=>x.id===b.customerId);return `<tr><td>${b.invoice}</td><td>${c?c.name:"-"}</td><td>${b.month}</td><td>${rupiah(b.amount)}</td><td>${b.due}</td><td><span class="badge ${b.status==="Lunas"?"ok":"warn"}">${b.status}</span></td><td>${b.status!=="Lunas"?`<button class="btn green" onclick="pay(${b.id})">Bayar</button>`:`✓`}</td></tr>`}).join("")||`<tr><td colspan="7" class="empty">Belum ada tagihan</td></tr>`;
-let total=db.bills.reduce((a,b)=>a+b.amount,0),paid=db.bills.filter(b=>b.status==="Lunas").reduce((a,b)=>a+b.amount,0);rTotal.textContent=rupiah(total);rPaid.textContent=rupiah(paid);rUnpaid.textContent=rupiah(total-paid);reportText.innerHTML=`Total tagihan: <b>${db.bills.length}</b><br>Total pelanggan aktif: <b>${db.customers.filter(c=>c.status==="Aktif").length}</b><br>Tagihan belum lunas: <b>${db.bills.filter(b=>b.status!=="Lunas").length}</b>`;
-dashBills.innerHTML=db.bills.slice().reverse().slice(0,5).map(b=>{let c=db.customers.find(x=>x.id===b.customerId);return `<p><b>${b.invoice}</b> — ${c?c.name:"-"} — ${rupiah(b.amount)} — ${b.status}</p>`}).join("")||"<div class='empty'>Belum ada tagihan</div>";
+
+/* DATABASE LOCAL */
+
+let database =
+JSON.parse(localStorage.getItem("billingRT")) ||
+{
+
+pelanggan:[
+{
+id:1,
+kode:"RT001",
+nama:"Pelanggan Contoh",
+hp:"081234567890",
+alamat:"Alamat contoh",
+paket:2,
+status:"Aktif"
 }
+],
+
+paket:[
+{
+id:1,
+nama:"Hemat",
+speed:"10 Mbps",
+harga:100000
+},
+{
+id:2,
+nama:"Standar",
+speed:"20 Mbps",
+harga:150000
+},
+{
+id:3,
+nama:"Premium",
+speed:"30 Mbps",
+harga:200000
+}
+],
+
+tagihan:[]
+
+};
+
+
+
+/* SIMPAN DATA */
+
+function save(){
+
+localStorage.setItem(
+"billingRT",
+JSON.stringify(database)
+);
+
 render();
-</script></body></html>
+
+}
+
+
+
+/* FORMAT RUPIAH */
+
+function rupiah(angka){
+
+return "Rp " +
+Number(angka).toLocaleString("id-ID");
+
+}
+
+
+
+/* MENU */
+
+function showPage(id,button){
+
+document.querySelectorAll(".page")
+.forEach(page=>{
+page.classList.remove("active");
+});
+
+document.getElementById(id)
+.classList.add("active");
+
+
+document.querySelectorAll(".menu button")
+.forEach(btn=>{
+btn.classList.remove("active");
+});
+
+button.classList.add("active");
+
+render();
+
+}
+
+
+
+/* MODAL */
+
+function closeModal(){
+
+document.getElementById("modal")
+.classList.remove("show");
+
+}
+
+
+function openModal(html){
+
+document.getElementById("modalBox")
+.innerHTML=html;
+
+document.getElementById("modal")
+.classList.add("show");
+
+}
+
+
+
+/* TAMBAH PELANGGAN */
+
+function openPelanggan(){
+
+let pilihanPaket="";
+
+database.paket.forEach(p=>{
+
+pilihanPaket +=
+`
+<option value="${p.id}">
+${p.nama} - ${p.speed}
+</option>
+`;
+
+});
+
+
+openModal(`
+
+<h2>Tambah Pelanggan</h2>
+
+<div class="form">
+
+<input id="kode" placeholder="Kode pelanggan">
+
+<input id="nama" placeholder="Nama pelanggan">
+
+<input id="hp" placeholder="Nomor HP">
+
+<input id="alamat" placeholder="Alamat">
+
+<select id="paket">
+${pilihanPaket}
+</select>
+
+<select id="status">
+<option>Aktif</option>
+<option>Nonaktif</option>
+</select>
+
+</div>
+
+<div class="actions">
+
+<button class="btn" onclick="tambahPelanggan()">
+Simpan
+</button>
+
+<button class="btn red" onclick="closeModal()">
+Batal
+</button>
+
+</div>
+
+`);
+
+}
+
+
+
+/* SIMPAN PELANGGAN */
+
+function tambahPelanggan(){
+
+if(!nama.value){
+
+alert("Nama pelanggan wajib diisi!");
+
+return;
+
+}
+
+
+database.pelanggan.push({
+
+id:Date.now(),
+
+kode:kode.value || "RT"+Date.now(),
+
+nama:nama.value,
+
+hp:hp.value,
+
+alamat:alamat.value,
+
+paket:Number(paket.value),
+
+status:status.value
+
+});
+
+
+closeModal();
+
+save();
+
+}
+
+
+
+/* HAPUS PELANGGAN */
+
+function hapusPelanggan(id){
+
+if(confirm("Hapus pelanggan?")){
+
+database.pelanggan =
+database.pelanggan.filter(p=>p.id!==id);
+
+database.tagihan =
+database.tagihan.filter(t=>t.pelanggan!==id);
+
+save();
+
+}
+
+}
+
+
+
+/* TAMBAH PAKET */
+
+function openPaket(){
+
+openModal(`
+
+<h2>Tambah Paket Internet</h2>
+
+<input id="namaPaket"
+placeholder="Nama paket">
+
+<input id="speedPaket"
+placeholder="Kecepatan contoh: 20 Mbps">
+
+<input id="hargaPaket"
+type="number"
+placeholder="Harga per bulan">
+
+<div class="actions">
+
+<button class="btn"
+onclick="tambahPaket()">
+Simpan
+</button>
+
+<button class="btn red"
+onclick="closeModal()">
+Batal
+</button>
+
+</div>
+
+`);
+
+}
+
+
+function tambahPaket(){
+
+if(!namaPaket.value ||
+!hargaPaket.value){
+
+alert("Nama dan harga wajib diisi!");
+
+return;
+
+}
+
+
+database.paket.push({
+
+id:Date.now(),
+
+nama:namaPaket.value,
+
+speed:speedPaket.value,
+
+harga:Number(hargaPaket.value)
+
+});
+
+
+closeModal();
+
+save();
+
+}
+
+
+
+/* HAPUS PAKET */
+
+function hapusPaket(id){
+
+if(confirm("Hapus paket?")){
+
+database.paket =
+database.paket.filter(p=>p.id!==id);
+
+save();
+
+}
+
+}
+
+
+
+/* BUAT TAGIHAN */
+
+function openTagihan(){
+
+let pilihan="";
+
+database.pelanggan
+.filter(p=>p.status==="Aktif")
+.forEach(p=>{
+
+pilihan +=
+`
+<option value="${p.id}">
+${p.nama}
+</option>
+`;
+
+});
+
+
+openModal(`
+
+<h2>Buat Tagihan</h2>
+
+<select id="pelangganTagihan">
+
+${pilihan}
+
+</select>
+
+<input
+id="bulanTagihan"
+type="month"
+value="${new Date()
+.toISOString()
+.substring(0,7)}">
+
+<input
+id="jatuhTempo"
+type="date">
+
+<div class="actions">
+
+<button class="btn"
+onclick="tambahTagihan()">
+Buat Tagihan
+</button>
+
+<button class="btn red"
+onclick="closeModal()">
+Batal
+</button>
+
+</div>
+
+`);
+
+}
+
+
+/* SIMPAN TAGIHAN */
+
+function tambahTagihan(){
+
+let pelanggan =
+database.pelanggan.find(
+p=>p.id ==
+Number(pelangganTagihan.value)
+);
+
+
+let paket =
+database.paket.find(
+p=>p.id ==
+pelanggan.paket
+);
+
+
+if(!paket){
+
+alert("Paket pelanggan tidak ditemukan!");
+
+return;
+
+}
+
+
+database.tagihan.push({
+
+id:Date.now(),
+
+invoice:
+"INV-"+Date.now()
+.toString()
+.slice(-8),
+
+pelanggan:pelanggan.id,
+
+bulan:bulanTagihan.value,
+
+jumlah:paket.harga,
+
+jatuhTempo:jatuhTempo.value,
+
+status:"Belum Bayar"
+
+});
+
+
+closeModal();
+
+save();
+
+}
+
+
+
+/* BAYAR */
+
+function bayar(id){
+
+let tagihan =
+database.tagihan.find(
+t=>t.id===id
+);
+
+tagihan.status="Lunas";
+
+save();
+
+}
+
+
+
+/* HAPUS TAGIHAN */
+
+function hapusTagihan(id){
+
+if(confirm("Hapus tagihan?")){
+
+database.tagihan =
+database.tagihan.filter(
+t=>t.id!==id
+);
+
+save();
+
+}
+
+}
+
+
+
+/* BACKUP */
+
+function backupData(){
+
+let file =
+new Blob(
+[
+JSON.stringify(
+database,
+null,
+2
+)
+],
+{
+type:"application/json"
+}
+);
+
+
+let link =
+document.createElement("a");
+
+link.href =
+URL.createObjectURL(file);
+
+link.download =
+"backup-billing-rtrw.json";
+
+link.click();
+
+}
+
+
+
+/* RENDER */
+
+function render(){
+
+/* DASHBOARD */
+
+document.getElementById(
+"totalPelanggan"
+).innerText =
+database.pelanggan.length;
+
+
+document.getElementById(
+"pelangganAktif"
+).innerText =
+database.pelanggan.filter(
+p=>p.status==="Aktif"
+).length;
+
+
+document.getElementById(
+"belumBayar"
+).innerText =
+database.tagihan.filter(
+t=>t.status!=="Lunas"
+).length;
+
+
+let pendapatan =
+database.tagihan
+.filter(t=>t.status==="Lunas")
+.reduce(
+(total,t)=>total+t.jumlah,
+0
+);
+
+
+document.getElementById(
+"pendapatan"
+).innerText =
+rupiah(pendapatan);
+
+
+
+/* PELANGGAN */
+
+let html="";
+
+
+database.pelanggan.forEach(p=>{
+
+let paket =
+database.paket.find(
+x=>x.id===p.paket
+);
+
+
+html+=`
+
+<tr>
+
+<td>${p.kode}</td>
+
+<td>${p.nama}</td>
+
+<td>${p.hp || "-"}</td>
+
+<td>
+${paket ? paket.nama : "-"}
+</td>
+
+<td>${p.status}</td>
+
+<td>
+
+<button
+class="btn red"
+onclick="hapusPelanggan(${p.id})">
+
+Hapus
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+document.getElementById(
+"tabelPelanggan"
+).innerHTML =
+html ||
+`
+<tr>
+<td colspan="6">
+Belum ada pelanggan
+</td>
+</tr>
+`;
+
+
+
+/* PAKET */
+
+let paketHTML="";
+
+
+database.paket.forEach(p=>{
+
+paketHTML+=`
+
+<div class="card">
+
+<small>${p.nama}</small>
+
+<h2>${p.speed}</h2>
+
+<p>${rupiah(p.harga)} / bulan</p>
+
+<button
+class="btn red"
+onclick="hapusPaket(${p.id})">
+
+Hapus
+
+</button>
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById(
+"daftarPaket"
+).innerHTML =
+paketHTML;
+
+
+
+/* TAGIHAN */
+
+let tagihanHTML="";
+
+
+database.tagihan
+.slice()
+.reverse()
+.forEach(t=>{
+
+let p =
+database.pelanggan.find(
+x=>x.id===t.pelanggan
+);
+
+
+let statusClass =
+t.status==="Lunas"
+? "lunas"
+: "belum";
+
+
+tagihanHTML+=`
+
+<tr>
+
+<td>${t.invoice}</td>
+
+<td>
+${p ? p.nama : "-"}
+</td>
+
+<td>${t.bulan}</td>
+
+<td>${rupiah(t.jumlah)}</td>
+
+<td>${t.jatuhTempo}</td>
+
+<td>
+
+<span class="status ${statusClass}">
+${t.status}
+</span>
+
+</td>
+
+<td>
+
+${
+t.status!=="Lunas"
+
+?
+
+`
+<button
+class="btn green"
+onclick="bayar(${t.id})">
+
+Bayar
+
+</button>
+`
+
+:
+
+"✓"
+
+}
+
+<button
+class="btn red"
+onclick="hapusTagihan(${t.id})">
+
+Hapus
+
+</button>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+document.getElementById(
+"tabelTagihan"
+).innerHTML =
+tagihanHTML ||
+`
+<tr>
+<td colspan="7">
+Belum ada tagihan
+</td>
+</tr>
+`;
+
+
+
+/* LAPORAN */
+
+let total =
+database.tagihan
+.reduce(
+(a,t)=>a+t.jumlah,
+0
+);
+
+
+let lunas =
+database.tagihan
+.filter(t=>t.status==="Lunas")
+.reduce(
+(a,t)=>a+t.jumlah,
+0
+);
+
+
+let belum =
+total-lunas;
+
+
+document.getElementById(
+"lapTotal"
+).innerText =
+rupiah(total);
+
+
+document.getElementById(
+"lapLunas"
+).innerText =
+rupiah(lunas);
+
+
+document.getElementById(
+"lapBelum"
+).innerText =
+rupiah(belum);
+
+
+document.getElementById(
+"ringkasan"
+).innerHTML =
+
+`
+Total pelanggan:
+<b>${database.pelanggan.length}</b>
+<br><br>
+
+Pelanggan aktif:
+<b>
+${database.pelanggan.filter(
+p=>p.status==="Aktif"
+).length}
+</b>
+
+<br><br>
+
+Total tagihan:
+<b>${database.tagihan.length}</b>
+
+<br><br>
+
+Tagihan lunas:
+<b>
+${database.tagihan.filter(
+t=>t.status==="Lunas"
+).length}
+</b>
+
+<br><br>
+
+Tagihan belum lunas:
+<b>
+${database.tagihan.filter(
+t=>t.status!=="Lunas"
+).length}
+</b>
+`;
+
+
+
+/* DASHBOARD TAGIHAN */
+
+let dashboard="";
+
+
+database.tagihan
+.slice()
+.reverse()
+.slice(0,5)
+.forEach(t=>{
+
+let p =
+database.pelanggan.find(
+x=>x.id===t.pelanggan
+);
+
+
+dashboard+=`
+
+<p>
+
+<b>${t.invoice}</b>
+-
+${p ? p.nama : "-"}
+
+-
+
+${rupiah(t.jumlah)}
+
+-
+
+${t.status}
+
+</p>
+
+`;
+
+});
+
+
+document.getElementById(
+"dashboardTagihan"
+).innerHTML =
+dashboard ||
+"<p>Belum ada tagihan.</p>";
+
+}
+
+
+render();
+
+</script>
+
+</body>
+</html>
